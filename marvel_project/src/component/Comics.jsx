@@ -12,7 +12,7 @@ const Comics = () =>{
         axios
         .get('https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/all.json')
         .then(response => {
-            setHeroes(response.data.results)
+            setHeroes(response.data)
             setIsLoaded(true)
         },
         
@@ -31,7 +31,11 @@ const Comics = () =>{
     }else{
         return(<ul>
             {heroes.map( hero =>(
-                <li style={{listStyle:'none'}} key={hero.id}>{hero.name}</li>
+                
+                <li style={{listStyle:'none'}} key={hero.id}>
+                    <img src={hero.images.xs} alt={hero.name} />
+                    {hero.name}
+                </li>
             ))}
         </ul>)
     
