@@ -4,21 +4,23 @@ import axios from 'axios'
 
 const Comics = () =>{
 
-    const [movies, setMovies] = useState([])
+    const [heroes, setHeroes] = useState([])
     const [error, setError] = useState(null)
     const [isLoaded,setIsLoaded] = useState(false)
 
     useEffect(()=>{
         axios
-        .get('https://api.themoviedb.org/3/movie/top_rated?api_key=883a22cb6f6f17c77ce626a6dc3f554a')
+        .get('https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/all.json')
         .then(response => {
-            setMovies(response.data.results)
+            setHeroes(response.data.results)
             setIsLoaded(true)
-        })
-        .catch(error =>{
+        },
+        
+        (error) =>{
             setIsLoaded(true)
             setError(error)
         })
+        
     },[])
 
     
@@ -28,8 +30,8 @@ const Comics = () =>{
         return <div>Loading...</div>
     }else{
         return(<ul>
-            {movies.map( movie =>(
-                <li style={{listStyle:'none'}} key={movie.id}>{movie.title}</li>
+            {heroes.map( hero =>(
+                <li style={{listStyle:'none'}} key={hero.id}>{hero.name}</li>
             ))}
         </ul>)
     
