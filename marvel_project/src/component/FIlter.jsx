@@ -1,12 +1,14 @@
 import React,{useEffect, useState} from 'react'
+import '../App.css';
 
 
 const Filter = () =>{
 
 
     return(
-        <div>
-            
+        <div className='filter_main'>
+           <input type='text' placeholder='search' className='search' /> 
+           <input type='submit' value='search'/>
         </div>
     )
 }
