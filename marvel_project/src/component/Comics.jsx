@@ -1,5 +1,8 @@
 import React,{useEffect, useState} from 'react'
 import axios from 'axios'
+import Comic from './Comic'
+import '../App.css';
+import Menu from './Menu';
 
 
 const Comics = () =>{
@@ -7,6 +10,8 @@ const Comics = () =>{
     const [heroes, setHeroes] = useState([])
     const [error, setError] = useState(null)
     const [isLoaded,setIsLoaded] = useState(false)
+    const [query, setQuery] = useState('')
+    const [searchParam] = useState('name')
 
     useEffect(()=>{
         axios
@@ -22,6 +27,22 @@ const Comics = () =>{
         })
         
     },[])
+      const search =(heroes)=>{
+        
+        return  heroes.filter((hero)=>{
+                return searchParam.some(newHero =>
+                    {
+                    return(
+                    hero[newHero]
+                        .toString()
+                        .toLowerCase()
+                        .indexOf(query.toLowerCase()) > -1
+                    )
+                })
+            }) 
+            
+        
+    }
 
     
     if(error){
@@ -29,20 +50,31 @@ const Comics = () =>{
     } else if(!isLoaded){
         return <div>Loading...</div>
     }else{
-        return(<ul>
-            {heroes.map( hero =>(
+        return(
+        <div className='container'>
+            <div className='header'>
+                <input type='text' className='search' value={query} onChange={(e) => setQuery(e.target.value)} placeholder='search'/> 
+                <input type='submit' value='search'/>
+
+                <Menu />
+            </div>
+            <div className ='main'>
+                <ul>
+                    {search(heroes).heroes.map( hero =>(
+                        <Comic hero={hero} />
+                    ))}
+                </ul>
+            </div>
+            <div className='footer'>
                 
-                <li style={{listStyle:'none'}} key={hero.id}>
-                    <img src={hero.images.xs} alt={hero.name} />
-                    {hero.name}
-                </li>
-            ))}
-        </ul>)
+            </div>
+        </div>
+    
+        )
+                
+
+    
     
     }
-
-    
-    
 }
-
 export default Comics
